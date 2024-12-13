@@ -106,7 +106,7 @@ public class DBController {
     // Insert 
     public static boolean insertNewArt(Artworks artworks) {
 
-        String query = "INSERT INTO artwork (artid, title, desc, imagePath, userId) values (?,?,?,?,?)";
+        String query = "INSERT INTO `artwork` (`ArtId`, `title`, `decs`, `imagePath`, `userId`) VALUES  (?,?,?,?,?)";
                 
         try {
 
