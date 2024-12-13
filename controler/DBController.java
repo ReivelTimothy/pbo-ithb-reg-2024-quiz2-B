@@ -106,16 +106,17 @@ public class DBController {
     // Insert 
     public static boolean insertNewArt(Artworks artworks) {
 
-        String query = "INSERT INTO artwork  (artid, title, desc, imagePath, userId) values (?,?,?,?,?)";
+        String query = "INSERT INTO artwork (artid, title, desc, imagePath, userId) values (?,?,?,?,?)";
                 
         try {
 
             conn.connect();
             PreparedStatement stmt = conn.con.prepareStatement(query);
-            stmt.setInt(1, 3);
+            stmt.setInt(1, 0);
             stmt.setString(2, artworks.getTitle());
             stmt.setString(3, artworks.getDesc());
-            stmt.setInt(4, 0);
+            stmt.setString(4, artworks.getImage_path());
+            stmt.setInt(5, 0);
 
             stmt.executeUpdate();
             return true;
