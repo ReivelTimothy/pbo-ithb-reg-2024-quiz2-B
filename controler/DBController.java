@@ -4,8 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.jar.Attributes.Name;
 
+import models.classes.Artworks;
 import models.classes.Nama;
 
 public class DBController {
@@ -13,33 +15,77 @@ public class DBController {
     static DatabaseHandler conn = new DatabaseHandler();
 
     public static void main(String[] args) {
-        showNama("Reivel");
-        Nama nama = new Nama("rafael");
-        Nama nama2 = new Nama("Ruben");
-        System.out.println(insertNewUser(nama));
-        // System.out.println(updateData(nama2, "Rafael"));
+        Login("Reivel", "123");
+        Nama nama = new Nama("Reivedl");
 
     }
     // SELECT AND SEARCH
-    public static Nama showNama(String namaa) {
+    public static boolean Login(String email, String pass) {
 
         Nama nama = new Nama("");
         try {
 
             conn.connect();
-            String query = "SELECT * FROM haha WHERE nama = '"+ namaa +"'";
+            String query = "SELECT * FROM users WHERE  email = '"+ email +"'";
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             if (rs.next()) {
 
                 do {
-                    nama.setNama(rs.getString("nama"));
-                    System.out.println(rs.getString("nama"));
+                    nama.setNama(rs.getString("email"));
+                    System.out.println(rs.getString("email"));
+                    if (rs.getString("email").equalsIgnoreCase(email)) {
+                        if (rs.getString("password").equalsIgnoreCase(pass)) {
+                            return true;
+                        }
+                    }
                 } while (rs.next());
 
             } else {
+                System.out.println("tidak ada");
+                return false;
 
+            }
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        }
+
+        conn.disconnect();
+        return false;
+
+
+    }
+
+
+    public static ArrayList<Artworks> listArtworks(){
+        ArrayList <Artworks> list = new ArrayList<>();
+        Artworks artworks = new Artworks();
+        try {
+
+            conn.connect();
+            String query = "SELECT * FROM artwork" ;
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            if (rs.next()) {
+
+                do {
+                    System.out.println(rs.getString("title"));
+                    artworks.setTitle(rs.getString("title"));
+                    artworks.setDesc(rs.getString("decs"));
+                    artworks.setImage_path(rs.getString("imagePath"));
+                    list.add(artworks);
+
+                } while (rs.next());
+
+                return list;
+
+            } else {
+                System.out.println("tidak ada");
                 return null;
 
             }
@@ -51,22 +97,25 @@ public class DBController {
         }
 
         conn.disconnect();
-        return nama;
 
 
+        return null;
     }
 
 
     // Insert 
-    public static boolean insertNewUser(Nama nama) {
+    public static boolean insertNewArt(Artworks artworks) {
 
-        String query = "INSERT INTO haha (nama) values (?)";
+        String query = "INSERT INTO artwork  (artid, title, desc, imagePath, userId) values (?,?,?,?,?)";
                 
         try {
 
             conn.connect();
             PreparedStatement stmt = conn.con.prepareStatement(query);
-            stmt.setString(1, nama.getNama());
+            stmt.setInt(1, 3);
+            stmt.setString(2, artworks.getTitle());
+            stmt.setString(3, artworks.getDesc());
+            stmt.setInt(4, 0);
 
             stmt.executeUpdate();
             return true;

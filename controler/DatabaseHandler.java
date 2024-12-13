@@ -2,8 +2,6 @@ package controler;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.TimeZone;
 import javax.swing.JOptionPane;
 
 public class DatabaseHandler {
@@ -11,7 +9,7 @@ public class DatabaseHandler {
     public Connection con;
     private String driver = "com.mysql.cj.jdbc.Driver";
 
-    private String url = "jdbc:mysql://localhost/test?serverTimezone=UTC&useSSL=false";
+    private String url = "jdbc:mysql://localhost/ambazing_db?serverTimezone=UTC&useSSL=false";
     private String username = "root";
     private String password = "";
 

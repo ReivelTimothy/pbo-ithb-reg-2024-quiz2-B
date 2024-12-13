@@ -6,13 +6,17 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import models.classes.Artworks;
+
 import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Properties;
+import java.util.List;
 
 public class CreateGui2 {
     private static CreateGui2 single_instance = null;
-
+    
     public static CreateGui2 getInstance() {
         if (single_instance == null) {
             single_instance = new CreateGui2();
@@ -54,12 +58,33 @@ public class CreateGui2 {
         return container;
     }
 
+    public JPanel showArtWork(ArrayList<Artworks> list){
+        JPanel container = new JPanel();
+        JPanel [] subJPanels = new JPanel[list.size()];
+        
+        for (int i = 0; i < list.size(); i++) {
+            subJPanels[i] = new JPanel();
+            subJPanels[i].setLayout(new GridLayout(4, 1));
+            subJPanels[i].add(new JLabel(list.get(i).getTitle()));
+            subJPanels[i].add(new JLabel(list.get(i).getDesc()));
+            subJPanels[i].add(new JLabel(list.get(i).getImage_path()));
+            subJPanels[i].add(new JLabel("-----------------------------------"));
+            container.add(subJPanels[i]);
+        }
+        
+        container.setLayout(new GridLayout(list.size(), 1));
+
+        return container;
+    }
+
+
+
     public JPanel createInputText(String labeltxt) { // untuk input textfield
         JPanel container = new JPanel(); // untu container utama
         JPanel subContainer = new JPanel(); // untuk label dan textfield
         
         JLabel label = new JLabel(labeltxt);
-        JTextField textField = createTextField(100, 25);
+        JTextField textField = createTextField(170, 20);
 
         subContainer.setLayout(new BorderLayout());
         subContainer.add(label, BorderLayout.WEST);
@@ -122,6 +147,7 @@ public class CreateGui2 {
         return container;
     }
 
+    // Component component = (Component)((JPanel)mainPanel.getComponent(4)).getComponent(1);
     public JPanel createInputFileChooser(String labeltxt, JFrame frame) {
         JPanel container = new JPanel();
         JPanel subContainer = new JPanel();
@@ -158,6 +184,7 @@ public class CreateGui2 {
         return path;
     }
 
+
     public static JDatePickerImpl createJDatePicker() {
         JPanel container = new JPanel();
         JPanel subContainer = new JPanel();
@@ -180,6 +207,7 @@ public class CreateGui2 {
         return datePicker;
     }
 
+    // =========== DATE ================
     public static JPanel CreateDateInput(JDatePickerImpl datePickerImpl, String labeltxt){
         JPanel container = new JPanel();
         JPanel subContainer = new JPanel();
@@ -197,23 +225,57 @@ public class CreateGui2 {
 
     }
 
-    public JPanel createCheckBox(String [] option, String labeltxt){
-        JPanel container = new JPanel();
-        JPanel subContainer = new JPanel();
-
+    // ======== PASSWORD ===========
+    public JPanel createInputPassword(){
+        JPanel container = new JPanel(); // untu container utama
+        JPanel subContainer = new JPanel(); // untuk label dan textfield
         
+        JLabel label = new JLabel("password  ");
+        JPasswordField passwordField = new JPasswordField();
+        passwordField.setColumns(15);
 
         subContainer.setLayout(new BorderLayout());
-        subContainer.add(new JLabel(labeltxt), BorderLayout.WEST);
+        subContainer.add(label, BorderLayout.WEST);
+        subContainer.add(passwordField, BorderLayout.EAST);
 
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        container.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // atas kiri bawah kanan
 
         container.add(subContainer);
-        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-        container.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         return container;
-
-
-
     }
+
+
+    // ======= CHECK BOX ==========
+    public JPanel createCheckBox(String[] options, String labelTxt) {
+        JPanel container = new JPanel(); // Panel utama
+        JPanel subContainer = new JPanel(); // Panel untuk label dan checkbox
+        JPanel checkBoxPanel = new JPanel(); // Panel khusus untuk checkbox
+
+        // Daftar untuk menyimpan checkbox
+        List<JCheckBox> group = new ArrayList<>();
+
+        // Buat checkbox untuk setiap opsi dan tambahkan ke panel
+        checkBoxPanel.setLayout(new GridLayout(0, 1)); // Satu kolom, banyak baris
+        for (String option : options) {
+            JCheckBox checkBox = new JCheckBox(option);
+            group.add(checkBox);
+            checkBoxPanel.add(checkBox);
+        }
+
+        // Tambahkan label dan checkbox ke subContainer
+        subContainer.setLayout(new BorderLayout());
+        subContainer.add(new JLabel(labelTxt), BorderLayout.NORTH); // Label di atas
+        subContainer.add(checkBoxPanel, BorderLayout.CENTER); // Checkbox di bawah
+
+        // Tambahkan subContainer ke panel utama
+        container.add(subContainer);
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        container.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Margin
+
+        return container;
+    }
+
+    // Contoh penggunaan
 }

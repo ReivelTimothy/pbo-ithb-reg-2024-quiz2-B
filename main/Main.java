@@ -1,7 +1,7 @@
 package main;
-import view.MainMenu;
+import view.Login;
 public class Main {
     public static void main(String[] args) {
-        MainMenu.main(args);
+        Login.main(args);
     }
 }
