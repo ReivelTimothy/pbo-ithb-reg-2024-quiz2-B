@@ -1,0 +1,29 @@
+        // Component p = ;
+        // System.out.println(p.getClass());
+
+        for (int i = 0; i < CreateGui.count; i++) { // DEPTH 2
+            JLabel label = (JLabel) ((JPanel) (((JPanel) mainPanel.getComponent(i)).getComponent(0))).getComponent(0);
+            JTextField field = (JTextField) ((JPanel) (((JPanel) mainPanel.getComponent(i)).getComponent(0))).getComponent(1);
+            System.out.println(label.getText() + " " + field.getText());
+        }
+
+
+        for (Component comp : 
+            ((JPanel) ((JPanel) ((JPanel) mainPanel.getComponent(3)).getComponent(0)).getComponent(1)).getComponents()) 
+        { // DEPTH 3
+            if (((JRadioButton)comp).isSelected()) {
+                System.out.println(((JRadioButton)comp).getText());
+            }
+        }
+
+        label & textField = container -> subcontainer -> label & textField (2x Casting)
+        radioButton = container -> subContainer -> radioContainer -> radioButton
+
+
+        for (Component comp : ((JPanel) ((JPanel) ((JPanel) mainPanel.getComponent(0)).getComponent(0)).getComponent(1)).getComponents()) {
+            if (((JRadioButton)comp).isSelected()) {
+                System.out.println(((JRadioButton)comp).getText());
+            }
+        }
+        
+        System.out.println(((JLabel)((JPanel)mainPanel.getComponent(6)).getComponent(1)).getText());
